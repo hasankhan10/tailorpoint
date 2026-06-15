@@ -1,26 +1,263 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Default Dark Mode CSS variables */
+  --bg-deep: #030712; /* zinc-950 */
+  --bg-card: #09090b; /* zinc-900 */
+  --text-primary: #f3f4f6; /* zinc-100 */
+  --text-secondary: #d1d5db; /* zinc-300 */
+  --text-muted: #9ca3af; /* zinc-400 */
+  --border-primary: #27272a; /* zinc-800 */
+  
+  --glass-bg: rgba(15, 23, 42, 0.65);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-gold-bg: rgba(15, 23, 42, 0.7);
+  --glass-gold-border: rgba(217, 119, 6, 0.2);
+  
+  --dot-color: rgba(255, 255, 255, 0.05);
+  --bg-radial-1: rgba(139, 92, 246, 0.15);
+  --bg-radial-2: rgba(217, 119, 6, 0.1);
+
+  --gradient-gold-from: #fbbf24;   /* amber-400 */
+  --gradient-gold-to: #fde68a;     /* amber-200 */
+  
+  --gradient-yellow-from: #fbbf24; /* amber-400 */
+  --gradient-yellow-via: #fde68a;  /* amber-200 */
+  --gradient-yellow-to: #eab308;   /* yellow-500 */
+
+  --background: var(--bg-deep);
+  --foreground: var(--text-primary);
+  --font-sans: var(--font-hind);
+  --font-display: var(--font-anek);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* Explicit Light Mode Override */
+.light {
+  --bg-deep: #f9fafb; /* zinc-50 */
+  --bg-card: #ffffff; /* white */
+  --text-primary: #09090b; /* zinc-950 */
+  --text-secondary: #27272a; /* zinc-800 */
+  --text-muted: #71717a; /* zinc-500 */
+  --border-primary: #e4e4e7; /* zinc-200 */
+  
+  --glass-bg: rgba(255, 255, 255, 0.75);
+  --glass-border: rgba(0, 0, 0, 0.08);
+  --glass-gold-bg: rgba(255, 255, 255, 0.8);
+  --glass-gold-border: rgba(217, 119, 6, 0.3);
+  
+  --dot-color: rgba(0, 0, 0, 0.05);
+  --bg-radial-1: rgba(139, 92, 246, 0.04);
+  --bg-radial-2: rgba(217, 119, 6, 0.04);
+
+  --gradient-gold-from: #d97706;   /* amber-600 */
+  --gradient-gold-to: #f59e0b;     /* amber-500 */
+  
+  --gradient-yellow-from: #d97706; /* amber-600 */
+  --gradient-yellow-via: #f59e0b;  /* amber-500 */
+  --gradient-yellow-to: #eab308;   /* yellow-500 */
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* System Light Mode Override (when neither dark nor light class is present) */
+@media (prefers-color-scheme: light) {
+  html:not(.dark):not(.light) {
+    --bg-deep: #f9fafb;
+    --bg-card: #ffffff;
+    --text-primary: #09090b;
+    --text-secondary: #27272a;
+    --text-muted: #71717a;
+    --border-primary: #e4e4e7;
+    
+    --glass-bg: rgba(255, 255, 255, 0.75);
+    --glass-border: rgba(0, 0, 0, 0.08);
+    --glass-gold-bg: rgba(255, 255, 255, 0.8);
+    --glass-gold-border: rgba(217, 119, 6, 0.3);
+    
+    --dot-color: rgba(0, 0, 0, 0.05);
+    --bg-radial-1: rgba(139, 92, 246, 0.04);
+    --bg-radial-2: rgba(217, 119, 6, 0.04);
+
+    --gradient-gold-from: #d97706;
+    --gradient-gold-to: #f59e0b;
+    
+    --gradient-yellow-from: #d97706;
+    --gradient-yellow-via: #f59e0b;
+    --gradient-yellow-to: #eab308;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+html {
+  font-size: 110%;
 }
+@theme {
+  --color-zinc-950: var(--bg-deep);
+  --color-zinc-900: var(--bg-card);
+  --color-zinc-850: var(--bg-card);
+  --color-zinc-800: var(--border-primary);
+  --color-zinc-700: var(--text-secondary);
+  --color-zinc-600: var(--text-muted);
+  --color-zinc-500: var(--text-muted);
+  --color-zinc-400: var(--text-muted);
+  --color-zinc-300: var(--text-secondary);
+  --color-zinc-200: var(--text-secondary);
+  --color-zinc-100: var(--text-primary);
+  --color-zinc-50: var(--text-primary);
+
+  --font-sans: var(--font-hind), sans-serif;
+  --font-display: var(--font-anek), sans-serif;
+  
+  --color-luxury-gold: #d97706;
+  --color-luxury-gold-hover: #b45309;
+  --color-luxury-gold-glow: rgba(217, 119, 6, 0.15);
+  
+  --color-luxury-purple: #8b5cf6;
+  --color-luxury-purple-glow: rgba(139, 92, 246, 0.15);
+  
+  --animate-scanline: scan 3s ease-in-out infinite;
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-pulse-glow: pulse-glow 3s ease-in-out infinite;
+  --animate-spin-slow: spin 20s linear infinite;
+}
+
+@keyframes scan {
+  0% { top: 0%; opacity: 0.3; }
+  50% { top: 100%; opacity: 1; }
+  100% { top: 0%; opacity: 0.3; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.5; filter: drop-shadow(0 0 5px rgba(217, 119, 6, 0.3)); }
+  50% { opacity: 1; filter: drop-shadow(0 0 15px rgba(217, 119, 6, 0.6)); }
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
+  overflow-x: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Custom Utilities for Premium Look */
+.gold-gradient-text {
+  background: linear-gradient(to right, var(--gradient-gold-from), var(--gradient-gold-to));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.yellow-gradient-text {
+  background: linear-gradient(to right, var(--gradient-yellow-from), var(--gradient-yellow-via), var(--gradient-yellow-to));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.glass-panel {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.glass-panel-gold {
+  background: var(--glass-gold-bg);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-gold-border);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.bg-dot-grid {
+  background-image: radial-gradient(var(--dot-color) 1px, transparent 1px);
+  background-size: 24px 24px;
+  transition: background-image 0.3s ease;
+}
+
+.bg-radial-gradient {
+  background: radial-gradient(circle at 50% 50%, var(--bg-radial-1) 0%, transparent 60%);
+  transition: background 0.3s ease;
+}
+
+.bg-radial-gold {
+  background: radial-gradient(circle at 50% 50%, var(--bg-radial-2) 0%, transparent 60%);
+  transition: background 0.3s ease;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-deep);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(217, 119, 6, 0.4);
+}
+
+/* Font classes */
+.font-display {
+  font-family: var(--font-display), sans-serif;
+}
+
+/* Scroll Reveal Animations */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, opacity;
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-40px);
+  transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, opacity;
+}
+.reveal-left.is-visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.reveal-right {
+  opacity: 0;
+  transform: translateX(40px);
+  transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, opacity;
+}
+.reveal-right.is-visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.reveal-scale {
+  opacity: 0;
+  transform: scale(0.94);
+  transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, opacity;
+}
+.reveal-scale.is-visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Staggered Delay classes */
+.delay-100 { transition-delay: 100ms; }
+.delay-200 { transition-delay: 200ms; }
+.delay-300 { transition-delay: 300ms; }
+.delay-400 { transition-delay: 400ms; }
+.delay-500 { transition-delay: 500ms; }
+
