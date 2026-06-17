@@ -3,6 +3,7 @@ import { Hind_Siliguri, Anek_Bangla } from "next/font/google";
 import "./globals.css";
 import Script from "next/script";
 import LocoScroll from "./components/LocoScroll";
+import { LanguageProvider } from "./context/LanguageContext";
 import "locomotive-scroll/dist/locomotive-scroll.css";
 
 const hindSiliguri = Hind_Siliguri({
@@ -57,7 +58,9 @@ export default function RootLayout({
         </Script>
       </head>
       <body className="min-h-full flex flex-col font-sans bg-zinc-950 text-zinc-100">
-        <LocoScroll>{children}</LocoScroll>
+        <LanguageProvider>
+          <LocoScroll>{children}</LocoScroll>
+        </LanguageProvider>
       </body>
     </html>
   );

@@ -4,9 +4,11 @@ import React, { useState } from "react";
 import WhatsAppTab from "./WhatsAppTab";
 import PaymentTab from "./PaymentTab";
 import BillingTab from "./BillingTab";
+import { useLanguage } from "../context/LanguageContext";
 
 export default function Sandbox() {
   const [sandboxTab, setSandboxTab] = useState<"whatsapp" | "payment" | "billing">("whatsapp");
+  const { t } = useLanguage();
 
   return (
     <section id="demo" className="py-20 relative">
@@ -14,13 +16,10 @@ export default function Sandbox() {
         
         <div className="text-center max-w-3xl mx-auto mb-14 reveal">
           <h2 className="font-display text-3xl sm:text-4xl font-bold text-zinc-100 tracking-tight">
-            টেইলরপয়েন্ট ড্যাশবোর্ড{" "}
-            <span className="gold-gradient-text">
-              লাইভ চালিয়ে দেখুন
-            </span>
+            {t("sandbox.heading")}
           </h2>
           <p className="text-zinc-400 text-base mt-3">
-            নিচের লাইভ প্যানেলে লেখাগুলো বদলে নিজেই একটু চালিয়ে দেখুন, টেইলরপয়েন্ট আপনার কাজ কতটা সহজ করে দেয়।
+            {t("sandbox.subheading")}
           </p>
         </div>
 
@@ -35,7 +34,7 @@ export default function Sandbox() {
                   : "text-zinc-400 hover:text-zinc-100 hover:bg-zinc-900/60"
               }`}
             >
-              💬 হোয়াটসঅ্যাপে মাপ পাঠান
+              {t("sandbox.tabWhatsApp")}
             </button>
             <button
               onClick={() => setSandboxTab("payment")}
@@ -45,7 +44,7 @@ export default function Sandbox() {
                   : "text-zinc-400 hover:text-zinc-100 hover:bg-zinc-900/60"
               }`}
             >
-              💸 চটপট পেমেন্ট লিংক
+              {t("sandbox.tabPayment")}
             </button>
             <button
               onClick={() => setSandboxTab("billing")}
@@ -55,7 +54,7 @@ export default function Sandbox() {
                   : "text-zinc-400 hover:text-zinc-100 hover:bg-zinc-900/60"
               }`}
             >
-              📋 ডিজিটাল বিল ও ক্যাশ মেমো
+              {t("sandbox.tabBilling")}
             </button>
           </div>
 

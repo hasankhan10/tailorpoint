@@ -2,11 +2,13 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
+import { useLanguage } from "../context/LanguageContext";
 
 export default function AiSimulator() {
   const [selectedFabric, setSelectedFabric] = useState<"none" | "blue" | "gold">("none");
   const [isScanning, setIsScanning] = useState(false);
   const [previewActive, setPreviewActive] = useState(false);
+  const { language, t } = useLanguage();
 
   const handleFabricSelect = (fabric: "none" | "blue" | "gold") => {
     if (fabric === "none") {
@@ -40,13 +42,13 @@ export default function AiSimulator() {
             <span className="text-xs font-mono text-zinc-400 ml-2">TailorPoint AI Simulator</span>
           </div>
           <div className="px-2.5 py-0.5 rounded bg-amber-500/10 text-[10px] font-bold text-amber-400 tracking-wider uppercase">
-            Live Demo
+            {language === "bn" ? "লাইভ ডেমো" : "Live Demo"}
           </div>
         </div>
 
         <div className="mt-5 space-y-4">
           <div className="text-sm font-semibold font-display text-zinc-200">
-            ধাপ ১: যেকোনো কাপড় বা ডিজাইন সিলেক্ট করে দেখুন
+            {language === "bn" ? "ধাপ ১: যেকোনো কাপড় বা ডিজাইন সিলেক্ট করে দেখুন" : "Step 1: Select any fabric or design to preview"}
           </div>
 
           {/* Fabrics Options */}
@@ -59,7 +61,7 @@ export default function AiSimulator() {
                   : "border-zinc-800 bg-zinc-900/60 text-zinc-400 hover:border-zinc-700"
               }`}
             >
-              👕 সাধারণ কাপড়
+              {language === "bn" ? "👕 সাধারণ কাপড়" : "👕 Plain Fabric"}
             </button>
             <button
               onClick={() => handleFabricSelect("blue")}
@@ -69,7 +71,7 @@ export default function AiSimulator() {
                   : "border-zinc-800 bg-zinc-900/60 text-zinc-400 hover:border-zinc-700"
               }`}
             >
-              🧥 নীল রঙের স্যুট
+              {language === "bn" ? "🧥 নীল স্যুট" : "🧥 Blue Suit"}
             </button>
             <button
               onClick={() => handleFabricSelect("gold")}
@@ -79,7 +81,7 @@ export default function AiSimulator() {
                   : "border-zinc-800 bg-zinc-900/60 text-zinc-400 hover:border-zinc-700"
               }`}
             >
-              🕌 সোনালী শেরওয়ানি
+              {language === "bn" ? "🕌 শেরওয়ানি" : "🕌 Sherwani"}
             </button>
           </div>
 
@@ -91,7 +93,7 @@ export default function AiSimulator() {
               <div className="relative w-full h-full">
                 <Image
                   src="/client_before.png"
-                  alt="কাস্টমার ও আন-স্টিচড কাপড়"
+                  alt={language === "bn" ? "কাস্টমার ও আন-স্টিচড কাপড়" : "Customer & unstitched fabric"}
                   fill
                   className="object-cover"
                   sizes="(max-w-md) 100vw"
@@ -99,7 +101,7 @@ export default function AiSimulator() {
                 />
                 <div className="absolute bottom-3 left-3 right-3 bg-zinc-950/70 backdrop-blur-md px-3 py-2 rounded-xl border border-zinc-800">
                   <p className="text-xs font-medium text-zinc-300 text-center">
-                    কাস্টমার হাতে থানের কাপড় নিয়ে দাঁড়িয়ে আছেন
+                    {language === "bn" ? "কাস্টমার হাতে থানের কাপড় নিয়ে দাঁড়িয়ে আছেন" : "Customer standing with unstitched fabric"}
                   </p>
                 </div>
               </div>
@@ -110,7 +112,7 @@ export default function AiSimulator() {
               <div className="relative w-full h-full">
                 <Image
                   src={previewActive ? "/client_blue_suit.png" : "/client_before.png"}
-                  alt="রয়্যাল ব্লু স্যুট প্রিভিউ"
+                  alt={language === "bn" ? "রয়্যাল ব্লু স্যুট প্রিভিউ" : "Royal Blue Suit Preview"}
                   fill
                   className="object-cover"
                   sizes="(max-w-md) 100vw"
@@ -129,11 +131,11 @@ export default function AiSimulator() {
                         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                         <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
                       </svg>
-                      ডিজাইন তৈরি হচ্ছে... একটু দাঁড়ান
+                      {t("aiSim.generating")}
                     </span>
                   ) : (
                     <span className="text-xs text-emerald-400 font-semibold flex items-center justify-center gap-1.5">
-                      ✨ পোশাকের ডিজাইন রেডি!
+                      ✨ {t("aiSim.success")}
                     </span>
                   )}
                 </div>
@@ -145,7 +147,7 @@ export default function AiSimulator() {
               <div className="relative w-full h-full">
                 <Image
                   src={previewActive ? "/client_gold_sherwani.png" : "/client_before.png"}
-                  alt="গোল্ডেন শেরওয়ানি প্রিভিউ"
+                  alt={language === "bn" ? "গোল্ডেন শেরওয়ানি প্রিভিউ" : "Golden Sherwani Preview"}
                   fill
                   className="object-cover"
                   sizes="(max-w-md) 100vw"
@@ -164,11 +166,11 @@ export default function AiSimulator() {
                         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                         <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
                       </svg>
-                      ডিজাইন তৈরি হচ্ছে... একটু দাঁড়ান
+                      {t("aiSim.generating")}
                     </span>
                   ) : (
                     <span className="text-xs text-emerald-400 font-semibold flex items-center justify-center gap-1.5">
-                      ✨ পোশাকের ডিজাইন রেডি!
+                      ✨ {t("aiSim.success")}
                     </span>
                   )}
                 </div>
@@ -179,7 +181,15 @@ export default function AiSimulator() {
 
           {/* Simulator Control Description */}
           <div className="bg-zinc-900/40 border border-zinc-800/80 rounded-xl p-3 text-[15px] text-zinc-400 leading-relaxed text-center">
-            💡 <strong>টেইলর ভাইদের সুবিধা:</strong> কাস্টমার কাপড় বেছে নেওয়ার পরই দেখতে পাবেন বানানোর পর কেমন লাগবে। ডিজাইন নিয়ে কাস্টমারের সাথে পরে আর কোনো ঝগড়াঝাঁটি বা ক্যাচল হবে না!
+            {language === "bn" ? (
+              <>
+                💡 <strong>টেইলর ভাইদের সুবিধা:</strong> কাস্টমার কাপড় বেছে নেওয়ার পরই দেখতে পাবেন বানানোর পর কেমন লাগবে। ডিজাইন নিয়ে কাস্টমারের সাথে পরে আর কোনো ঝগড়াঝাঁটি বা ক্যাচল হবে না!
+              </>
+            ) : (
+              <>
+                💡 <strong>Tailor Benefit:</strong> Let clients preview the stitched look immediately after fabric selection. Eliminate downstream disputes and fitting complaints!
+              </>
+            )}
           </div>
 
         </div>

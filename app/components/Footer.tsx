@@ -1,6 +1,11 @@
+"use client";
+
 import React from "react";
+import { useLanguage } from "../context/LanguageContext";
 
 export default function Footer() {
+  const { language, t } = useLanguage();
+
   return (
     <footer className="bg-zinc-950 text-zinc-300 pt-10 pb-8 border-t border-zinc-800 relative text-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -23,38 +28,42 @@ export default function Footer() {
                   TailorPoint
                 </span>
                 <span className="block text-[10px] text-zinc-500 font-mono tracking-widest text-right leading-none uppercase">
-                  টেইলরপয়েন্ট
+                  {language === "bn" ? "টেইলরপয়েন্ট" : "TailorPoint"}
                 </span>
               </div>
             </div>
             
             <p className="text-sm text-zinc-300 leading-relaxed max-w-sm">
-              টেইলরপয়েন্ট হলো ভারতের টেইলর ও বুটিক দোকানের জন্য তৈরি এআই-ভিত্তিক সহজ কাস্টমার ম্যানেজমেন্ট (CRM) সফটওয়্যার।
+              {t("footer.desc")}
             </p>
 
             <div className="text-[15px] text-zinc-400 space-y-1.5">
-              <div>📧 ইমেইল: tailorpoint@gmail.com</div>
-              <div>📞 হেল্পলাইন: +91-7001717263</div>
+              <div>{language === "bn" ? "📧 ইমেইল: tailorpoint@gmail.com" : "📧 Email: tailorpoint@gmail.com"}</div>
+              <div>{language === "bn" ? "📞 হেল্পলাইন: +91-7001717263" : "📞 Helpline: +91-7001717263"}</div>
             </div>
           </div>
 
           {/* Links */}
           <div className="lg:col-span-5 grid grid-cols-2 gap-4">
             <div>
-              <h4 className="text-sm font-bold text-zinc-100 uppercase tracking-wider mb-2 font-display">ন্যাভিগেশন</h4>
+              <h4 className="text-sm font-bold text-zinc-100 uppercase tracking-wider mb-2 font-display">
+                {language === "bn" ? "ন্যাভিগেশন" : "Navigation"}
+              </h4>
               <ul className="space-y-1.5 text-[13px] text-zinc-400">
-                <li><a href="#features" className="hover:text-amber-400 transition-colors">ফিচারসমূহ</a></li>
-                <li><a href="#demo" className="hover:text-amber-400 transition-colors">লাইভ ডেমো</a></li>
-                <li><a href="#pricing" className="hover:text-amber-400 transition-colors">প্রাইসিং প্ল্যান</a></li>
-                <li><a href="#faq" className="hover:text-amber-400 transition-colors">প্রশ্নোত্তর</a></li>
+                <li><a href="#features" className="hover:text-amber-400 transition-colors">{t("nav.features")}</a></li>
+                <li><a href="#demo" className="hover:text-amber-400 transition-colors">{t("nav.demo")}</a></li>
+                <li><a href="#pricing" className="hover:text-amber-400 transition-colors">{t("nav.pricing")}</a></li>
+                <li><a href="#faq" className="hover:text-amber-400 transition-colors">{t("nav.faq")}</a></li>
               </ul>
             </div>
             <div>
-              <h4 className="text-sm font-bold text-zinc-100 uppercase tracking-wider mb-2 font-display">আইনি নোটিশ</h4>
+              <h4 className="text-sm font-bold text-zinc-100 uppercase tracking-wider mb-2 font-display">
+                {language === "bn" ? "আইনি নোটিশ" : "Legal"}
+              </h4>
               <ul className="space-y-1.5 text-[13px] text-zinc-400">
-                <li><a href="#" className="hover:text-amber-400 transition-colors">প্রাইভেসি পলিসি</a></li>
-                <li><a href="#" className="hover:text-amber-400 transition-colors">ব্যবহারের শর্তাবলী</a></li>
-                <li><a href="#" className="hover:text-amber-400 transition-colors">রিফান্ড পলিসি</a></li>
+                <li><a href="#" className="hover:text-amber-400 transition-colors">{language === "bn" ? "প্রাইভেসি পলিসি" : "Privacy Policy"}</a></li>
+                <li><a href="#" className="hover:text-amber-400 transition-colors">{language === "bn" ? "ব্যবহারের শর্তাবলী" : "Terms of Service"}</a></li>
+                <li><a href="#" className="hover:text-amber-400 transition-colors">{language === "bn" ? "রিফান্ড পলিসি" : "Refund Policy"}</a></li>
               </ul>
             </div>
           </div>
@@ -64,7 +73,7 @@ export default function Footer() {
         {/* Copyright Section */}
         <div className="pt-4 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-zinc-500">
           <div>
-            &copy; {new Date().getFullYear()} TailorPoint CRM. সর্বস্বত্ব সংরক্ষিত।
+            {t("footer.rights")}
           </div>
           <div className="flex items-center gap-2">
             <span>Made with ❤️ for Indian Tailors</span>

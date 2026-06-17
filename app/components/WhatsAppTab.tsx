@@ -1,9 +1,11 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useLanguage } from "../context/LanguageContext";
 
 export default function WhatsAppTab() {
-  const [clientName, setClientName] = useState("অভিষেক মুখার্জী");
+  const { language, t } = useLanguage();
+  const [clientName, setClientName] = useState("");
   const [clientPhone, setClientPhone] = useState("9876543210");
   const [measurements, setMeasurements] = useState({
     length: "42",
@@ -16,6 +18,12 @@ export default function WhatsAppTab() {
   const [isSendingWa, setIsSendingWa] = useState(false);
   const [waSentMessage, setWaSentMessage] = useState<string | null>(null);
 
+  // Sync client name with language defaults
+  useEffect(() => {
+    setClientName(language === "bn" ? "অভিষেক মুখার্জী" : "Abhishek Mukherjee");
+    setWaSentMessage(null);
+  }, [language]);
+
   const handleSendWhatsApp = (e: React.FormEvent) => {
     e.preventDefault();
     setIsSendingWa(true);
@@ -23,7 +31,9 @@ export default function WhatsAppTab() {
 
     setTimeout(() => {
       setIsSendingWa(false);
-      const msg = `*টেইলরপয়েন্ট কাপড়ের মাপ*\n\nহ্যালো ${clientName},\nআপনার জামার মাপগুলো নিচে দেওয়া হলো:\n-------------------------\n📏 লম্বা: ${measurements.length} ইঞ্চি\n👕 ছাতি: ${measurements.chest} ইঞ্চি\n👖 কোমর: ${measurements.waist} ইঞ্চি\n📐 কাঁধ/পুঁট: ${measurements.shoulder} ইঞ্চি\n👔 হাতা: ${measurements.sleeve} ইঞ্চি\n🧣 গলা: ${measurements.neck} ইঞ্চি\n-------------------------\nঅর্ডার নম্বর: #TP-8032\n\nআমাদের দোকানে আসার জন্য অনেক ধন্যবাদ!\n- নিউ ক্লাসিক টেইলার্স`;
+      const msg = language === "bn"
+        ? `*টেইলরপয়েন্ট কাপড়ের মাপ*\n\nহ্যালো ${clientName},\nআপনার জামার মাপগুলো নিচে দেওয়া হলো:\n-------------------------\n📏 লম্বা: ${measurements.length} ইঞ্চি\n👕 ছাতি: ${measurements.chest} ইঞ্চি\n👖 কোমর: ${measurements.waist} ইঞ্চি\n📐 কাঁধ/পুঁট: ${measurements.shoulder} ইঞ্চি\n👔 হাতা: ${measurements.sleeve} ইঞ্চি\n🧣 গলা: ${measurements.neck} ইঞ্চি\n-------------------------\nঅর্ডার নম্বর: #TP-8032\n\nআমাদের দোকানে আসার জন্য অনেক ধন্যবাদ!\n- নিউ ক্লাসিক টেইলার্স`
+        : `*TailorPoint Client Sizes*\n\nHello ${clientName},\nHere are your custom garment measurements:\n-------------------------\n📏 Length: ${measurements.length} inches\n👕 Chest: ${measurements.chest} inches\n👖 Waist: ${measurements.waist} inches\n📐 Shoulder: ${measurements.shoulder} inches\n👔 Sleeve: ${measurements.sleeve} inches\n🧣 Neck: ${measurements.neck} inches\n-------------------------\nOrder ID: #TP-8032\n\nThank you for choosing our boutique shop!\n- New Classic Tailors`;
       setWaSentMessage(msg);
     }, 1500);
   };
@@ -34,12 +44,12 @@ export default function WhatsAppTab() {
       {/* Inputs Form */}
       <form onSubmit={handleSendWhatsApp} className="space-y-4 bg-zinc-950/60 border border-zinc-800/80 p-6 rounded-2xl">
         <div className="text-sm font-bold text-amber-400 font-display uppercase tracking-wider mb-2">
-          📋 কাস্টমারের নাম আর মাপ লিখুন
+          {language === "bn" ? "📋 কাস্টমারের নাম আর মাপ লিখুন" : "📋 Enter Customer Name & Measurements"}
         </div>
         
         <div className="grid sm:grid-cols-2 gap-4">
           <div>
-            <label className="block text-xs text-zinc-400 mb-1.5">কাস্টমারের নাম</label>
+            <label className="block text-xs text-zinc-400 mb-1.5">{t("sandbox.whatsapp.labelName")}</label>
             <input
               type="text"
               value={clientName}
@@ -49,7 +59,7 @@ export default function WhatsAppTab() {
             />
           </div>
           <div>
-            <label className="block text-xs text-zinc-400 mb-1.5">মোবাইল নম্বর (WhatsApp)</label>
+            <label className="block text-xs text-zinc-400 mb-1.5">{t("sandbox.whatsapp.labelPhone")}</label>
             <input
               type="text"
               value={clientPhone}
@@ -62,7 +72,7 @@ export default function WhatsAppTab() {
 
         <div className="grid grid-cols-3 gap-3 pt-2">
           <div>
-            <label className="block text-xs text-zinc-400 mb-1">লম্বা (Length)</label>
+            <label className="block text-xs text-zinc-400 mb-1">{language === "bn" ? "লম্বা (Length)" : "Length (in)"}</label>
             <input
               type="text"
               value={measurements.length}
@@ -71,7 +81,7 @@ export default function WhatsAppTab() {
             />
           </div>
           <div>
-            <label className="block text-xs text-zinc-400 mb-1">ছাতি (Chest)</label>
+            <label className="block text-xs text-zinc-400 mb-1">{language === "bn" ? "ছাতি (Chest)" : "Chest (in)"}</label>
             <input
               type="text"
               value={measurements.chest}
@@ -80,7 +90,7 @@ export default function WhatsAppTab() {
             />
           </div>
           <div>
-            <label className="block text-xs text-zinc-400 mb-1">কোমর (Waist)</label>
+            <label className="block text-xs text-zinc-400 mb-1">{language === "bn" ? "কোমর (Waist)" : "Waist (in)"}</label>
             <input
               type="text"
               value={measurements.waist}
@@ -89,7 +99,7 @@ export default function WhatsAppTab() {
             />
           </div>
           <div>
-            <label className="block text-xs text-zinc-400 mb-1">পুঁট/কাঁধ</label>
+            <label className="block text-xs text-zinc-400 mb-1">{language === "bn" ? "পুঁট/কাঁধ" : "Shoulder"}</label>
             <input
               type="text"
               value={measurements.shoulder}
@@ -98,7 +108,7 @@ export default function WhatsAppTab() {
             />
           </div>
           <div>
-            <label className="block text-xs text-zinc-400 mb-1">হাতা (Sleeve)</label>
+            <label className="block text-xs text-zinc-400 mb-1">{language === "bn" ? "হাতা (Sleeve)" : "Sleeve"}</label>
             <input
               type="text"
               value={measurements.sleeve}
@@ -107,7 +117,7 @@ export default function WhatsAppTab() {
             />
           </div>
           <div>
-            <label className="block text-xs text-zinc-400 mb-1">গলা (Neck)</label>
+            <label className="block text-xs text-zinc-400 mb-1">{language === "bn" ? "গলা (Neck)" : "Neck"}</label>
             <input
               type="text"
               value={measurements.neck}
@@ -128,10 +138,10 @@ export default function WhatsAppTab() {
                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
               </svg>
-              মাপের মেসেজ তৈরি হচ্ছে...
+              {language === "bn" ? "মাপের মেসেজ তৈরি হচ্ছে..." : "Generating message..."}
             </>
           ) : (
-            <span>⚡ হোয়াটসঅ্যাপে মাপ পাঠান</span>
+            <span>⚡ {language === "bn" ? "হোয়াটসঅ্যাপে মাপ পাঠান" : "Send Measurements via WhatsApp"}</span>
           )}
         </button>
       </form>
@@ -141,7 +151,7 @@ export default function WhatsAppTab() {
         {/* Mock WhatsApp Header */}
         <div className="bg-[#075e54] px-4 py-3 flex items-center gap-3">
           <div className="w-8.5 h-8.5 rounded-full bg-emerald-800 text-zinc-100 flex items-center justify-center font-bold text-xs">
-            {clientName.substring(0, 2)}
+            {clientName ? clientName.substring(0, 2) : "WA"}
           </div>
           <div>
             <div className="text-white text-sm font-bold leading-tight">{clientName}</div>
@@ -162,7 +172,9 @@ export default function WhatsAppTab() {
             </div>
           ) : (
             <div className="text-center text-zinc-400 dark:text-zinc-500 text-xs py-8 px-4 border border-dashed border-zinc-800/80 rounded-xl max-w-xs mx-auto mb-10">
-              বাঁদিকের ফর্ম পূরণ করে বাটনে ক্লিক করলেই এখানে হোয়াটসঅ্যাপ মেসেজের ডেমো দেখতে পাবেন।
+              {language === "bn"
+                ? "বাঁদিকের ফর্ম পূরণ করে বাটনে ক্লিক করলেই এখানে হোয়াটসঅ্যাপ মেসেজের ডেমো দেখতে পাবেন।"
+                : "Fill in the form on the left and click the button to preview the WhatsApp message here."}
             </div>
           )}
 

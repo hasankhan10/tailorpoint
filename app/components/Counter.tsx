@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
+import { useLanguage } from "../context/LanguageContext";
 
 interface CounterProps {
   target: number;
@@ -21,6 +22,7 @@ export default function Counter({ target, duration = 1500, suffix = "" }: Counte
   const [count, setCount] = useState(0);
   const elementRef = useRef<HTMLSpanElement>(null);
   const hasStartedRef = useRef(false);
+  const { language } = useLanguage();
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -66,7 +68,7 @@ export default function Counter({ target, duration = 1500, suffix = "" }: Counte
 
   return (
     <span ref={elementRef}>
-      {toBengaliNumber(count)}
+      {language === "bn" ? toBengaliNumber(count) : count}
       {suffix}
     </span>
   );

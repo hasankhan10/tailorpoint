@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 
-export default function ElectricGrid() {
+export default function ElectricGrid({ interactive = true }: { interactive?: boolean }) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [theme, setTheme] = useState<"dark" | "light">("dark");
 
@@ -75,8 +75,10 @@ export default function ElectricGrid() {
     };
 
     window.addEventListener("resize", handleResize);
-    window.addEventListener("mousemove", handleMouseMove);
-    document.addEventListener("mouseleave", handleMouseLeave);
+    if (interactive) {
+      window.addEventListener("mousemove", handleMouseMove);
+      document.addEventListener("mouseleave", handleMouseLeave);
+    }
 
     // Helper: generate electric lightning bolt path
     const generateBoltPath = (
@@ -141,7 +143,7 @@ export default function ElectricGrid() {
       // Smoothly fade mouse electricity in and out
       const now = Date.now();
       const isIdle = now - m.lastMoved > 1500;
-      const targetIntensity = m.active && !isIdle ? 1.0 : 0.0;
+      const targetIntensity = interactive && m.active && !isIdle ? 1.0 : 0.0;
       m.intensity += (targetIntensity - m.intensity) * 0.08;
 
       // Adjust positions for scroll offset relative to canvas bounds
@@ -152,7 +154,7 @@ export default function ElectricGrid() {
       const endRow = Math.ceil((canvasScrollY + height) / spacing);
 
       // 2. Calculate mouse interactive connections
-      if (m.intensity > 0.01) {
+      if (interactive && m.intensity > 0.01) {
         const connectionRadius = 160;
 
         // Localized grid lookup around mouse positions (O(1) checks)
@@ -258,7 +260,7 @@ export default function ElectricGrid() {
           let sizeZoom = 0;
           let opacityBoost = 0;
 
-          if (m.intensity > 0.01 && dist < lensRadius) {
+          if (interactive && m.intensity > 0.01 && dist < lensRadius) {
             const ratio = dist / lensRadius;
             const strength = Math.sin(ratio * Math.PI);
             const push = strength * maxDisplacement * m.intensity;
@@ -306,10 +308,12 @@ export default function ElectricGrid() {
     return () => {
       cancelAnimationFrame(animationFrameId);
       window.removeEventListener("resize", handleResize);
-      window.removeEventListener("mousemove", handleMouseMove);
-      document.removeEventListener("mouseleave", handleMouseLeave);
+      if (interactive) {
+        window.removeEventListener("mousemove", handleMouseMove);
+        document.removeEventListener("mouseleave", handleMouseLeave);
+      }
     };
-  }, [theme]);
+  }, [theme, interactive]);
 
   return (
     <canvas
